@@ -10,10 +10,10 @@ distances = TSP[1:, 1:]
 #临近算法
 def nearest_neighbor(distances, start_city):
     # 初始化
-    unvisited_cities = set(cities)
-    unvisited_cities.remove(start_city)
-    forcities = set(unvisited_cities)
+    forcities = set(cities)
+    forcities.remove(start_city)
     dict_tour = {}
+    #循环每个邻居城市
     for i in forcities:
         current_city = i
         tour = [start_city]
