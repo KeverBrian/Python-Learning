@@ -102,6 +102,8 @@ def renearest_neighbor(distances, start_city):
         else:
             tour_distance += distances[recity][ntour[1]]
             recity = ntour[1]
+    tour.append(start_city)
+    tour_distance += distances[recity][start_city]
     return tour, tour_distance
 
 #使用临近算法
