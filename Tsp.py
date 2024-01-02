@@ -32,8 +32,11 @@ def nearest_neighbor(distances, start_city):
         tour.append(start_city)
         tour_distance += distances[current_city][start_city]
         dict_tour[i] = [tour,tour_distance]
-    min_tour = min(dict_tour.items(), key=lambda item: item[1][1])[0]
-    return dict_tour[min_tour]
+    if len(dict_tour) == 0:
+        return [start_city,0]
+    else:
+        min_tour = min(dict_tour.items(), key=lambda item: item[1][1])[0]
+        return dict_tour[min_tour]
 
 #二临近算法(未完成)
 def nearest_twoneighbors(distances, start_city):
@@ -81,39 +84,38 @@ def relative_neighbors(distances, start_city):
     min_tour = min(dict_tour.items(), key=lambda item: item[1][1])[0]
     return dict_tour[min_tour]
 
-#重复临近算法
+#重复临近算法(失败品)
 def renearest_neighbor(distances, start_city):
     # 初始化
     tour = [start_city]
     tour_distance = 0
     recity = nearest_neighbor(distances, start_city)[0][1]
-    tour_distance += nearest_neighbor(distances, start_city)[1]
+    tour_distance += distances[start_city][recity]
     cities.remove(start_city)
     # 逐步访问
     while cities:
         ntour = nearest_neighbor(distances, recity)[0]
         tour.append(recity)
-        tour_distance += nearest_neighbor(distances, recity)[1]
         cities.remove(recity)
-        recity = ntour[1]
+        if type(ntour) == int:
+            break
+        else:
+            tour_distance += distances[recity][ntour[1]]
+            recity = ntour[1]
     return tour, tour_distance
 
 #使用临近算法
-tour1 = nearest_neighbor(distances, 0)[0]
-tour1_distance = nearest_neighbor(distances, 0)[1]
-print("Tour_One:", tour1, "Total distance:", tour1_distance)
+tour1 = nearest_neighbor(distances, 0)
+print("Tour_One:", tour1[0], "Total distance:", tour1[1])
 
 #使用二临近算法
-#tour2 = nearest_twoneighbors(distances, 0)[0]
-#tour2_distance = nearest_twoneighbors(distances, 0)[1]
-#print("Tour_Two:", tour2, "Total distance:", tour2_distance)
+#tour2 = nearest_twoneighbors(distances, 0)
+#print("Tour_Two:", tour2[0], "Total distance:", tour2[1])
 
 #使用相对距离算法
-#tour3 = relative_neighbors(distances, 0)[0]
-#tour3_distance = relative_neighbors(distances, 0)[1]
-#print("Tour_Three:", tour3, "Total distance:", tour3_distance)
+#tour3 = relative_neighbors(distances, 0)
+#print("Tour_Three:", tour3[0], "Total distance:", tour3[1])
 
 #使用重复临近算法
-#tour4 = renearest_neighbor(distances, 0)[0]
-#tour4_distance = renearest_neighbor(distances, 0)[1]
-#print("Tour_Four:", tour4, "Total distance:", tour4_distance)
+tour4 = renearest_neighbor(distances, 0)
+print("Tour_Four:", tour4[0], "Total distance:", tour4[1])
