@@ -113,8 +113,8 @@ print("Tour_One:", tour1[0], "Total distance:", tour1[1])
 #print("Tour_Two:", tour2[0], "Total distance:", tour2[1])
 
 #使用相对距离算法
-#tour3 = relative_neighbors(distances, 0)
-#print("Tour_Three:", tour3[0], "Total distance:", tour3[1])
+tour3 = relative_neighbors(distances, 0)
+print("Tour_Three:", tour3[0], "Total distance:", tour3[1])
 
 #使用重复临近算法
 tour4 = renearest_neighbor(distances, 0)
