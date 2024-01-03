@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import random
+import heapq
 
 TSP = pd.read_excel(r'C:\Users\linji\OneDrive\桌面\python\excel\TravelSalersProblem.xlsx',header=None)
 TSP = np.array(TSP)
@@ -98,6 +100,7 @@ def relative_neighbors(distances, start_city):
 #重复临近算法(失败品)
 def renearest_neighbor(distances, start_city):
     # 初始化
+    global cities
     tour = [start_city]
     tour_distance = 0
     recity = nearest_neighbor(distances, start_city)[0][1]
@@ -115,7 +118,42 @@ def renearest_neighbor(distances, start_city):
             recity = ntour[1]
     tour.append(start_city)
     tour_distance += distances[recity][start_city]
+    cities = list(range(TSP.shape[0]-1))
     return tour, tour_distance
+
+#随机算法
+def random_tour(distances,start_city,times):
+    min_tour = []
+    min_distance =0
+    for t in range(times):
+        tour = [start_city]
+        current_city = start_city
+        tour_distance = 0
+        forcities = list(cities)
+        forcities.remove(start_city)
+        while forcities:
+            random_next = random.choice(forcities)
+            tour.append(random_next)
+            tour_distance += distances[current_city][random_next]
+            forcities.remove(random_next)
+            current_city = random_next
+        tour.append(start_city)
+        tour_distance += distances[current_city][start_city]
+        if min_distance == 0 or min_distance > tour_distance:
+            min_distance = tour_distance
+            min_tour = tour
+        else:
+            pass
+    return min_tour, min_distance
+        
+
+
+#邻居算法
+#def neighbor(distances, start_city):
+    dict_neighbor = {}
+    for city in cities:
+        third_smallest = heapq.nsmallest(3,distances[city])
+        dict_neighbor[city] = third_smallest 
 
 #使用临近算法
 tour1 = nearest_neighbor(distances, 0)
@@ -132,3 +170,7 @@ print("Tour_Three:", tour3[0], "Total distance:", tour3[1])
 #使用重复临近算法
 tour4 = renearest_neighbor(distances, 0)
 print("Tour_Four:", tour4[0], "Total distance:", tour4[1])
+
+#使用随机算法
+tour5 = random_tour(distances,0,2000)
+print("Tour_Five:", tour5[0], "Total distance:", tour5[1])
