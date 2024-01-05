@@ -56,7 +56,7 @@ def nearest_twoneighbors(distances, start_city):
         tour.append(current_city)
     # 逐步访问
         while unvisited_cities:
-            next_city = min(unvisited_cities, key=lambda city: distances[current_city][city]+min(distances[city]))
+            next_city = min(unvisited_cities, key=lambda city: distances[current_city][city]+min([i for i in distances[city] if i != 0 and i != min(distances[city])]))
             unvisited_cities.remove(next_city)
             tour.append(next_city)
             tour_distance += distances[current_city][next_city]
@@ -145,15 +145,6 @@ def random_tour(distances,start_city,times):
         else:
             pass
     return min_tour, min_distance
-        
-
-
-#邻居算法
-#def neighbor(distances, start_city):
-    dict_neighbor = {}
-    for city in cities:
-        third_smallest = heapq.nsmallest(3,distances[city])
-        dict_neighbor[city] = third_smallest 
 
 #使用临近算法
 tour1 = nearest_neighbor(distances, 0)
