@@ -40,7 +40,7 @@ def nearest_neighbor(distances, start_city):
         min_tour = min(dict_tour.items(), key=lambda item: item[1][1])[0]
         return dict_tour[min_tour]
 
-#二临近算法(和临近算法相同结果)
+#二临近算法
 def nearest_twoneighbors(distances, start_city):
     # 初始化
     forcities = set(cities)
@@ -97,7 +97,7 @@ def relative_neighbors(distances, start_city):
     min_tour = min(dict_tour.items(), key=lambda item: item[1][1])[0]
     return dict_tour[min_tour]
 
-#重复临近算法(失败品)
+#重复临近算法
 def renearest_neighbor(distances, start_city):
     # 初始化
     global cities
